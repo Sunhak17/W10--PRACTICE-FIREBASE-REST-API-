@@ -1,3 +1,7 @@
+import 'package:w10_practice/model/artist/comment.dart';
+
+import 'package:w10_practice/model/songs/song.dart';
+
 import '../../../model/artist/artist.dart';
 import 'artist_repository.dart';
 
@@ -18,6 +22,27 @@ class ArtistRepositoryMock implements ArtistRepository {
         (artist) => artist.id == id,
         orElse: () => throw Exception("No artist with id $id in the database"),
       );
+    });
+  }
+
+  @override
+  Future<List<Comment>> fetchArtistComments(String artistId) async {
+    return Future.delayed(Duration(seconds: 1), () {
+      return [];
+    });
+  }
+
+  @override
+  Future<List<Song>> fetchArtistSongs(String artistId) async {
+    return Future.delayed(Duration(seconds: 1), () {
+      return [];
+    });
+  }
+
+  @override
+  Future<void> postArtistComment(String artistId, String text) async {
+    return Future.delayed(Duration(seconds: 1), () {
+      return null;
     });
   }
 }

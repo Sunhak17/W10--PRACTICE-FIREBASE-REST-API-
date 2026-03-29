@@ -45,7 +45,7 @@ class LibraryViewModel extends ChangeNotifier {
       // 1- Fetch songs
       List<Song> songs = await songRepository.fetchSongs(forceFetch: forceFetch);
 
-      // 2- Fethc artist
+      // 2- Fetch artist
       List<Artist> artists = await artistRepository.fetchArtists();
 
       // 3- Create the mapping artistid-> artist
@@ -64,7 +64,6 @@ class LibraryViewModel extends ChangeNotifier {
       this.data = AsyncValue.success(data);
 
     } catch (e) {
-      // 3- Fetch is unsucessfull
       data = AsyncValue.error(e);
     }
     notifyListeners();

@@ -6,13 +6,13 @@ import '../../../theme/theme.dart';
 import '../../../utils/async_value.dart';
 import '../../../widgets/song/artist_tile.dart';
 import '../view_model/artists_view_model.dart';
+import './artist_detail_screen.dart';
 
 class ArtistsContent extends StatelessWidget {
   const ArtistsContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 1- Read the globbal song repository
     ArtistsViewModel mv = context.watch<ArtistsViewModel>();
 
     AsyncValue<List<Artist>> asyncValue = mv.artistsValue;
@@ -34,7 +34,17 @@ class ArtistsContent extends StatelessWidget {
         List<Artist> artists = asyncValue.data!;
         content = ListView.builder(
           itemCount: artists.length,
-          itemBuilder: (context, index) => ArtistTile(artist: artists[index]),
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArtistDetailScreen(artist: artists[index]),
+                ),
+              );
+            },
+            child: ArtistTile(artist: artists[index]),
+          ),
         );
     }
 
