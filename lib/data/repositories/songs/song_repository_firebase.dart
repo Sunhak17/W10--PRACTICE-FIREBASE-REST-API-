@@ -11,10 +11,18 @@ class SongRepositoryFirebase extends SongRepository {
     'w10-practice-4996f-default-rtdb.asia-southeast1.firebasedatabase.app',
     '/songs.json',
   );
+
+  List<Song>? _cachedSongs;
   
 
   @override
-  Future<List<Song>> fetchSongs() async {
+  Future<List<Song>> fetchSongs({bool forceFetch = false}) async {
+    // 1. Return cache if Song available
+    if (!forceFetch && _cachedSongs != null) {
+      return _cachedSongs!;
+    }
+
+    // 2. Otherwise fetch from API
     final http.Response response = await http.get(songsUri);
 
     if (response.statusCode == 200) {
@@ -25,11 +33,17 @@ class SongRepositoryFirebase extends SongRepository {
       for (final entry in songJson.entries) {
         result.add(SongDto.fromJson(entry.key, entry.value));
       }
+
+      //3. Store in memory
+      _cachedSongs = result;
       return result;
     } else {
-      // 2- Throw expcetion if any issue
       throw Exception('Failed to load posts');
     }
+  }
+
+  void clearCache() {
+    _cachedSongs = null;
   }
 
   @override
