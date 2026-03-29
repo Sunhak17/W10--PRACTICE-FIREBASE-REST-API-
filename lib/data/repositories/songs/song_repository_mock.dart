@@ -22,4 +22,21 @@ class SongRepositoryMock implements SongRepository {
       );
     });
   }
+  
+  @override
+  Future<void> likeSong(String id, int likeCount) async {
+  final index = _songs.indexWhere((song) => song.id == id);
+  if (index != -1) {
+    _songs[index] = Song(
+      id: _songs[index].id,
+      title: _songs[index].title,
+      artistId: _songs[index].artistId,
+      duration: _songs[index].duration,
+      imageUrl: _songs[index].imageUrl,
+      likes: likeCount,
+    );
+  } else {
+    throw Exception("No song with id $id in the database");
+  }
+}
 }
